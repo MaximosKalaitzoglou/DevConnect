@@ -60,7 +60,4 @@ The application focuses on developer-centric features such as sharing posts, com
 - Angular CLI
 - Docker (optional, for containerized development)
 
-### Running the Project
-
-#### Backend
 
