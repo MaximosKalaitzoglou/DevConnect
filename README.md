@@ -1,2 +1,0 @@
-# DevConnect
-A portofolio Project
