@@ -1,0 +1,36 @@
+version: '3.8'
+
+services:
+  api:
+    build:
+      context: .
+      dockerfile: DevConnect.Api/Dockerfile
+    ports:
+      - "5000:80"
+    environment:
+      - ASPNETCORE_ENVIRONMENT=Development
+    depends_on:
+      - db
+
+  db:
+    image: postgres:16
+    environment:
+      POSTGRES_DB: devconnect
+      POSTGRES_USER: postgres
+      POSTGRES_PASSWORD: postgres
+    ports:
+      - "5432:5432"
+    volumes:
+      - postgres_data:/var/lib/postgresql/data
+
+  angular:
+    image: node:18
+    working_dir: /app
+    volumes:
+      - ./DevConnect.Web:/app
+    command: sh -c "npm install && npm run start -- --proxy-config proxy.conf.json --host 0.0.0.0"
+    ports:
+      - "4200:4200"
+
+volumes:
+  postgres_data:
