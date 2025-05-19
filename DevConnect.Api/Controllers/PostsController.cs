@@ -15,15 +15,6 @@ namespace DevConnect.Api.Controllers
         public PostsController(AppDbContext context)
         {
             _context = context;
-
-            if (!_context.Posts.Any())
-            {
-                _context.Posts.AddRange(
-                    new Post { Title = "Hello World", Content = "Welcome to DevConnect!" },
-                    new Post { Title = "Second Post", Content = "This is a dummy post." }
-                );
-                _context.SaveChanges();
-            }
         }
         
         [HttpGet]

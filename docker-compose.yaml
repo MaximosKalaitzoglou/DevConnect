@@ -6,7 +6,7 @@ services:
       context: .
       dockerfile: DevConnect.Api/Dockerfile
     ports:
-      - "5000:80"
+      - "5000:8080"
     environment:
       - ASPNETCORE_ENVIRONMENT=Development
     depends_on:
@@ -23,14 +23,25 @@ services:
     volumes:
       - postgres_data:/var/lib/postgresql/data
 
-  angular:
+  vue:
     image: node:18
     working_dir: /app
     volumes:
-      - ./DevConnect.Web:/app
-    command: sh -c "npm install && npm run start -- --proxy-config proxy.conf.json --host 0.0.0.0"
+      - ./devconnect-web:/app
     ports:
-      - "4200:4200"
+      - "5173:5173"
+    command: sh -c "npm install && npm run dev -- --host"
+    environment:
+      - NODE_ENV=development
+    depends_on:
+      - api
+
+  phpmyadmin:
+    image: adminer  # Use Adminer instead of phpMyAdmin for PostgreSQL
+    ports:
+      - "8080:8080"
+    depends_on:
+      - db
 
 volumes:
   postgres_data:
